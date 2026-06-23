@@ -1,0 +1,22 @@
+n = 3
+values = [10, 40, 30]
+weights = [5, 4, 6]
+W = 10
+
+dp = [[-float('inf')] * (W + 1) for _ in range(n + 1)]
+dp[0][0] = 0
+
+for i in range(1, n + 1):
+    for w in range(W + 1):
+        dp[i][w] = dp[i - 1][w]
+
+        if w >= weights[i - 1] and dp[i - 1][w - weights[i - 1]] != -float('inf'):
+            dp[i][w] = max(
+                dp[i][w],
+                dp[i - 1][w - weights[i - 1]] + values[i - 1]
+            )
+
+if dp[n][W] == -float('inf'):
+    print("Exact fill not possible")
+else:
+    print("Maximum Profit =", dp[n][W])
